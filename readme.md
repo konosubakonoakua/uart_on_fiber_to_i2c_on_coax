@@ -1,13 +1,14 @@
 # UART on FIBER to I2C on COAX CABLE
 
-## 3d model
+## prototype version 1
 
 <details>
 
-  <summary> click me to show 3d model images</summary>
+  <summary> click me to show images of prototype version 1</summary>
 
   ![3d model top](JLCEDA/images/fiber_uart_to_coax_i2c_top.png)
   ![3d model bottom](JLCEDA/images/fiber_uart_to_coax_i2c_btm.png)
+  ![prototype version 1](JLCEDA/images/prototype_ver_1.png)
 
 </details>
 
