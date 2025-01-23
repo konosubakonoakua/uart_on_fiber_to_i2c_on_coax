@@ -1,6 +1,11 @@
+import digitalio
 import board
 import busio
 import time
+
+# Initialize LED
+led = digitalio.DigitalInOut(board.LED)
+led.direction = digitalio.Direction.OUTPUT
 
 # Initialize I2C
 # i2c = busio.I2C(board.SCL, board.SDA)
@@ -36,6 +41,14 @@ def write_to_ad5252(register_address, value):
         print(f"I2C write failed with error: {e}")
         return False
 
+
+def led_flash(led, timeout):
+    led.value = True
+    time.sleep(timeout)
+    led.value = False
+    time.sleep(timeout)
+
+
 def main():
     print("AD5252 Digital Potentiometer Test Begin")
 
@@ -44,22 +57,26 @@ def main():
         if uart.in_waiting > 0:
             data = uart.read(1)  # Read one byte
             if data:
+                led_flash(led, 0.05)
                 value = data[0]  # Extract byte value
                 print(f"Received from UART: 0x{value:02X}")
 
                 # Write received data to AD5252 potentiometer
-                success1 = write_to_ad5252(RDAC1_REGISTER, value)  # Write to RDAC1 register
+                # success1 = write_to_ad5252(RDAC1_REGISTER, value)  # Write to RDAC1 register
                 success3 = write_to_ad5252(RDAC3_REGISTER, value)  # Write to RDAC3 register
 
-                # Check if writes were successful
-                if not success1:
-                    print("Error: Failed to write to RDAC1!")
+                # # Check if writes were successful
+                # if not success1:
+                #     print("Error: Failed to write to RDAC1!")
+                #     led_flash(led, 0.2)
                 if not success3:
                     print("Error: Failed to write to RDAC3!")
+                    led_flash(led, 0.1)
 
         # Add a small delay to avoid busy waiting
-        time.sleep(0.1)
+        led_flash(led, 0.01)
 
 # Run the main program
 if __name__ == "__main__":
     main()
+    led.deinit()
