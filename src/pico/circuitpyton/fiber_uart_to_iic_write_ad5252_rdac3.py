@@ -4,6 +4,13 @@ import busio
 import time
 from adafruit_bus_device.i2c_device import I2CDevice
 
+# Testing
+# stty -F /dev/ttyPS1
+# stty -F /dev/ttyPS1 115200 cs8 -cstopb -parenb
+# printf '\xA5' | hexdump -C
+#
+# printf '\xA5' | cat > /dev/ttyPS1
+
 # Initialize LED
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
