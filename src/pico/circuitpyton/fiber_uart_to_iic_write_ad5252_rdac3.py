@@ -2,6 +2,7 @@ import digitalio
 import board
 import busio
 import time
+from adafruit_bus_device.i2c_device import I2CDevice
 
 # Initialize LED
 led = digitalio.DigitalInOut(board.LED)
@@ -31,7 +32,7 @@ def write_to_ad5252(register_address, value):
     """
     try:
         # Create I2C device object
-        with busio.I2CDevice(i2c, AD5252_ADDRESS) as device:
+        with I2CDevice(i2c, AD5252_ADDRESS) as device:
             # Write register address and data
             device.write(bytes([register_address, value]))
         print(f"Value written to AD5252 (Register 0x{register_address:02X}): 0x{value:02X}")
